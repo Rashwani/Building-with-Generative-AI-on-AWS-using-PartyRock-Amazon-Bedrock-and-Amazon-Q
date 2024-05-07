@@ -146,6 +146,10 @@ st.subheader("Image Generation Demo - Image to Image")
 model = st.selectbox("Select model", ["Stable Diffusion", "Amazon Titan"])
 
 # TODO insert your comments
+Add a file uploader for images
+Get user prompt to change the image
+# Streamlit file uploader for only for images
+# Get user prompt to change image
 
 
 col1, col2 = st.columns(2)  # Column 1 for input image, Column 2 for output image
@@ -157,6 +161,29 @@ if user_image is not None:
     # Button to generate new image
     if col1.button("Update Image"):
         new_image = update_image_pipeline(user_image, change_prompt, model)
+        col2.image(new_image)
+else:
+    col2.write("No image uploaded")
+import streamlit as st
+import boto3
+import json
+import base64
+from io import BytesIO
+from PIL import Image
+
+# ... (rest of the code)
+
+# Add file uploader
+user_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
+col1, col2 = st.columns(2)  # Column 1 for input image, Column 2 for output image
+
+# show user image
+if user_image is not None:
+    user_image = Image.open(user_image)
+    col1.image(user_image)
+    # Button to generate new image
+    if col1.button("Update Image"):
         col2.image(new_image)
 else:
     col2.write("No image uploaded")
